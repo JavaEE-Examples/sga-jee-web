@@ -20,6 +20,15 @@ public class PersonaServlet extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Se invoca el método del EJB que retorna las personas
+        List<Persona> listaPersonas = personaServiceEJB.listarPersonas();
+        System.out.println("Personas: " + listaPersonas);
         
+        // Se pone la lista de personas en el alcance de la variable request
+        request.setAttribute("personas", listaPersonas);
+        
+        /* Se redirige hacia el jsp "listadoPersonas.jsp" que va a mostrar el listado de personas.
+         Se reenvía también el objeto response y request para poder acceder a la información del request donde se seteó el atributo personas */
+        request.getRequestDispatcher("/listadoPersonas.jsp").forward(request, response);
     }
 }
